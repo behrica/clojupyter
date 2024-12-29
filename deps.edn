@@ -31,7 +31,7 @@
         com.fzakaria/slf4j-timbre   {:mvn/version "0.4.1"}
         org.slf4j/log4j-over-slf4j  {:mvn/version "2.0.13"}
         org.slf4j/jul-to-slf4j      {:mvn/version "2.0.13"}
-        org.slf4j/jcl-over-slf4j    {:mvn/version "2.0.13"}}}
+        org.slf4j/jcl-over-slf4j    {:mvn/version "2.0.13"}}
  :aliases
  {:build
   {:deps
