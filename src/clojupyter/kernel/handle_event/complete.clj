@@ -44,6 +44,8 @@
         codestr (subs (msgs/message-code req-message) 0 pos)
         complete-string (string-to-complete codestr)
         start (- pos (count complete-string))]
+    (println :codestr codestr)
+    (println :complete-string complete-string)
     {:cursor-start start, :cursor-pos pos, :complete-string complete-string}))
 
 (definterceptor ic*complete msgs/COMPLETE-REQUEST
