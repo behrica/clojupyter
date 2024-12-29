@@ -154,6 +154,7 @@
 
   (nrepl-eval
     [cljsrv code]
+    (println :nrepl-eval--code code) 
     (->> {:id (u!/uuid), :op "eval", :code code :eval 'clojupyter.kernel.cljsrv/advising-eval}
          (nrepl/message nrepl-client_)
          (nrepl-continue-eval cljsrv)))
