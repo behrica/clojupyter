@@ -7,7 +7,6 @@
         com.taoensso/timbre         {:mvn/version "6.5.0"}
         io.aviso/pretty             {:mvn/version "1.4.3"}
         hiccup/hiccup               {:mvn/version "2.0.0-RC3"}
-        io.forward/yaml             {:mvn/version "1.0.11" :exclusions [org.flatland/ordered]}
         org.flatland/ordered        {:mvn/version "1.15.12"}
         io.pedestal/pedestal.interceptor {:mvn/version "0.5.10"}
         io.simplect/compose         {:mvn/version "0.7.27"}
