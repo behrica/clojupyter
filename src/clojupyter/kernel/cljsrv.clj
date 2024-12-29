@@ -106,8 +106,8 @@
                       {:msgs msgs, :result result})))))
 
 (defn advise->clojupyter [{:keys [kind value] :as advise}]
-  (println :advise->clojupyter--advise advise)
-  (println :advise->clojupyter--kind kind)
+  ;(println :advise->clojupyter--advise advise)
+  ;(println :advise->clojupyter--kind kind)
   (case kind
     :kind/md (display/markdown value)
     :kind/vega-lite (display/render-mime :application/vnd.vegalite.v3+json value)
@@ -120,8 +120,8 @@
         advise  (kindly-advice/advise {:form form :value value}) 
         ]
     
-    (println :advising--meta-form (meta form))
-    (println :advising--meta-value (meta value ))
+    ;(println :advising--meta-form (meta form))
+    ;(println :advising--meta-value (meta value ))
     
     (advise->clojupyter advise))
   
@@ -154,7 +154,7 @@
 
   (nrepl-eval
     [cljsrv code]
-    (println :nrepl-eval--code code) 
+    ;(println :nrepl-eval--code code) 
     (->> {:id (u!/uuid), :op "eval", :code code :eval 'clojupyter.kernel.cljsrv/advising-eval}
          (nrepl/message nrepl-client_)
          (nrepl-continue-eval cljsrv)))
