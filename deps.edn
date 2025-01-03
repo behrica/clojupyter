@@ -4,7 +4,7 @@
         clojure.java-time/clojure.java-time     {:mvn/version "1.4.2"}
         clj-commons/pomegranate     {:mvn/version "1.2.24"}
         com.grammarly/omniconf      {:mvn/version "0.5.2"}
-        com.taoensso/timbre         {:mvn/version "6.5.0"}
+        com.taoensso/timbre         {:mvn/version "6.6.1"}
         io.aviso/pretty             {:mvn/version "1.4.3"}
         hiccup/hiccup               {:mvn/version "2.0.0-RC3"}
         clj-commons/clj-yaml        {:mvn/version "1.0.29"}
