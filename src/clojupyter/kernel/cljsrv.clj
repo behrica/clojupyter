@@ -130,18 +130,12 @@
   (let [value (eval form)]
     (if (var? value)
       value
-      (let [advise  (kindly-advice/advise {:form form :value value}) ]
-        (advise->clojupyter advise))
-      )
-    q
+      (let [advise  (kindly-advice/advise {:form form :value value})]
+        (advise->clojupyter advise)))
     ;(println :advising--meta-form (meta form))
     ;(println :advising--meta-value (meta value ))
-    
-    )
-  
-  )
-(def value (eval '(def xxx 1)))
-(var? value)
+    ))
+
 (defrecord CljSrv [nrepl-server_ nrepl-client_ nrepl-sockaddr_ pending-input?_]
   nrepl-server-proto
 
