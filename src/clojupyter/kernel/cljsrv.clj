@@ -108,8 +108,8 @@
 
 (defn advise->clojupyter [{:keys [kind value] :as advise}]
   ;(println :advise->clojupyter--advise advise)
-  (println :advise->clojupyter--kind kind)
-  (println :advise->clojupyter--value value)
+  ;(println :advise->clojupyter--kind kind)
+  ;(println :advise->clojupyter--value value)
   (case kind
     :kind/md (display/markdown value)
     :kind/vega-lite (display/render-mime :application/vnd.vegalite.v3+json value)
