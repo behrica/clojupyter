@@ -112,6 +112,7 @@
   ;(println :advise->clojupyter--value value)
   (case kind
     :kind/md (display/markdown value)
+    :kind/tex (display/latex value)
     :kind/vega-lite (display/render-mime :application/vnd.vegalite.v3+json value)
     :kind/hiccup (display/hiccup-html value)
     :kind/plotly (display/hiccup-html
