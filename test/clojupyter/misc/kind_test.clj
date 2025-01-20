@@ -178,8 +178,15 @@
         '(kind/hidden "(+ 1 1)")) =>
        {:html-data nil})
 
-
-(k/kind-eval '^kind/scittle '(println 123))
+(facts "kind/scittle works"
+       (str/includes?        
+        (->
+         (k/kind-eval '(kind/scittle '(.log js/console "hello")))
+         :html-data
+         second
+         second)
+        "scittle.core.eval_string('(.log js/console \"hello\")')"
+        )=> true)
        
 (facts "kind/vega works"
        (str/starts-with? 
@@ -282,7 +289,7 @@
 (comment
   (to-hiccup-js/render
 
-   {:form})
+   {:form 123})
 
 
 
