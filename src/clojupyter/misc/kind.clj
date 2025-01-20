@@ -335,6 +335,12 @@
   [{:as note :keys [value]}]
   (render-non-nestable note (display/render-mime :application/vnd.vegalite.v3+json value)))
 
+
+(defmethod render-advice :kind/vega
+  [{:as note :keys [value]}]
+  (render-non-nestable note (display/render-mime :application/vnd.vega.v5+json value)))
+
+
 (defmethod render-advice :kind/md
   [{:as note :keys [value]}]
   (render-non-nestable note (display/markdown value)))
