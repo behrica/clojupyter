@@ -47,7 +47,6 @@
                       org.scicloj/noj {:mvn/version "2-beta4"} ;; to test all kinds
                       }
          :exec-fn clojupyter.run-tests/run-tests-and-exit
-         :jvm-opts ["-Djava.awt.headless=true"]
          }
 
   :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
