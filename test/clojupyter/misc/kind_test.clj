@@ -4,6 +4,7 @@
    [clojure.string :as str]
    [midje.sweet                    :refer [=> facts]]
    [scicloj.kindly-render.note.to-hiccup :as to-hiccup]
+   [scicloj.kindly-render.note.to-hiccup-js :as to-hiccup-js]
    [scicloj.kindly.v4.kind :as kind]
    [scicloj.tableplot.v1.plotly :as plotly]
    [tablecloth.api :as tc]
@@ -127,8 +128,16 @@
        {:html-data nil})
 
 
+(k/kind-eval '^kind/scittle '(println 123))
        
+(to-hiccup-js/render
+ 
+ {:form })
 
+
+(to-hiccup-js/render
+
+ {:form '^kind/reagent (println 123)})
 
 
 ;; Getting these pass would brings us closer to "kind compliancy"
