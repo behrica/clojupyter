@@ -4,6 +4,7 @@
    [clojure.string :as str]
    [midje.sweet                    :refer [=> facts]]
    [scicloj.kindly-render.note.to-hiccup :as to-hiccup]
+   [scicloj.kindly-render.note.to-hiccup-js :as to-hiccup-js]
    [scicloj.kindly.v4.kind :as kind]
    [scicloj.tableplot.v1.plotly :as plotly]
    [tablecloth.api :as tc]
@@ -178,6 +179,7 @@
        {:html-data nil})
 
 
+(k/kind-eval '^kind/scittle '(println 123))
        
 (facts "kind/vega works"
        (str/starts-with? 
@@ -186,7 +188,8 @@
         ) => true)
 
 
-;; Getting these pass would increase teh ""kind compatibility"
+;; Getting these pass would increase the "kind compatibility"
+
 (facts "kind/fragment works"
 
       ;;  (k/kind-eval
@@ -274,3 +277,15 @@
        ;;   (k/kind-eval
        ;;    '(kind/smile-model {}))
        )
+
+
+(comment
+  (to-hiccup-js/render
+
+   {:form})
+
+
+
+  (to-hiccup-js/render
+
+   {:form '^kind/reagent (println 123)}))
