@@ -1,6 +1,6 @@
 (ns clojupyter.misc.kind
    (:require
-    [cheshire.core :as cheshire]
+    [charred.api :as json]
     [clojure.data.codec.base64 :as b64]
     [clojure.java.io :as io]
     [scicloj.kindly-render.note.to-hiccup :as to-hiccup]
@@ -184,7 +184,7 @@
    [:div {:style {:height "500px"
                   :width "500px"}}
     (require-deps-and-render (format "Highcharts.chart(currentScript_XXXXX.parentElement, %s);"
-                                     (cheshire/encode (:value note)))
+                                     (json/write-json-str (:value note)))
                              note)])
 
  (defn plotly->hiccup
@@ -202,13 +202,13 @@
    [:div {:style {:height "500px"
                   :width "500px"}}
     (require-deps-and-render (format "Plotly.newPlot(currentScript_XXXXX.parentElement, %s);"
-                                     (cheshire/encode (:value note)))
+                                     (json/write-json-str (:value note)))
                              note)])
 
  (defn vega->hiccup [note]
    [:div
     (require-deps-and-render (format "vegaEmbed(currentScript_XXXXX.parentElement, %s);"
-                                     (cheshire/encode (:value note)))
+                                     (json/write-json-str (:value note)))
                              note)])
 
  (defn cytoscape>hiccup
@@ -228,7 +228,7 @@
                             value = %s;  
                             value['container'] = currentScript_XXXXX.parentElement;  
                             cytoscape(value);"
-                                     (cheshire/encode (:value note)))
+                                     (json/write-json-str (:value note)))
                              note)])
 
  (defn echarts->hiccup
@@ -247,7 +247,7 @@
     (require-deps-and-render (format "  
                                     var myChart = echarts.init(currentScript_XXXXX.parentElement);  
                                     myChart.setOption(%s);"
-                                     (cheshire/encode (:value note)))
+                                     (json/write-json-str (:value note)))
  
                              note)])
 
@@ -255,7 +255,7 @@
    [:div
     (require-deps-and-render (format
                               "katex.render(%s, currentScript_XXXXX.parentElement, {throwOnError: false});"
-                              (cheshire/encode (format "$%s$"(first (:value note)))))
+                              (json/write-json-str (format "$%s$"(first (:value note)))))
                              note)
     ])
 
@@ -285,36 +285,7 @@
                                note)
       [:div {:id (str id)}]]))
 
- (defn- default-to-hiccup-render
-   "Provides a default rendering for notes by converting them into Hiccup format and preparing them for display in Clojupyter. It's a helper function used when no specific rendering method is available for a given kind.  
-  
-   **Parameters:**  
-  
-   - `note` (Map): A note containing information to render.  
-  
-   **Returns:**  
-  
-   - The `note` map augmented with `:clojupyter` and `:hiccup` keys, where `:clojupyter` contains the rendered HTML using `hiccup-html`, and `:hiccup` contains the Hiccup representation."
-   [note]
-   (to-hiccup/render note))
  
-
-  (defn- render-recursively
-    "Recursively renders a data structure into Hiccup format, applying a rendering function to each element in the structure. It is used for rendering collections like vectors, maps, sets, and sequences.  
-  
-   **Parameters:**  
-  
-   - `note` (Map): The note to render.  
-   - `value` (Collection): The data structure to render recursively.  
-   - `css-class` (String): The CSS class to apply to the rendered elements.  
-   - `render` (Function): The function to apply to each element for rendering.  
-  
-   **Returns:**  
-  
-   - The `note` map augmented with `:clojupyter` containing the rendered HTML, and `:hiccup` containing the Hiccup representation."
-    [note value css-class render]
-    (walk/render-data-recursively note {:class css-class} value render))
-
  (defn- render-table-recursively
    "Recursively renders table data structures into Hiccup format.  
   

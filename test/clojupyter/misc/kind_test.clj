@@ -12,6 +12,9 @@
    [scicloj.kindly-render.shared.walk :as walk]
    [scicloj.kindly.v4.kind :as kind]
    [scicloj.tableplot.v1.plotly :as plotly]
+   [scicloj.tableplot.v1.plotly :as plotly]
+   [tech.v3.datatype.datetime :as datetime]
+
    [tablecloth.api :as tc]))
 
 
@@ -514,6 +517,66 @@
          )
         "katex") => true)
 
+(def feed-string
+     (slurp "https://www.clojurians-zulip.org/feeds/events.ics"))
+(def feed-dataset
+     (-> feed-string
+         (str/split #"END:VEVENT\nBEGIN:VEVENT")
+         (->> (map (fn [event-string]
+                     (-> event-string
+                         str/split-lines
+                         (->> (map (fn [event-line]
+                                     (when-let [k (re-find #"URL:|SUMMARY:|DTSTART:" event-line)]
+                                       [(-> k
+                                            (str/replace ":" "")
+                                            str/lower-case
+                                            keyword)
+                                        (-> event-line
+                                            (str/replace k ""))])))
+                              (into {}))))))
+         (tc/dataset {:parser-fn {:dtstart [:local-date-time
+                                            "yyyyMMdd'T'HHmmss'Z'"]}})
+         (tc/set-dataset-name "Clojure Calendar Feed")))
+(facts "can encode data wit timestamps"
+
+       
+
+       (->
+        (k/kind-eval
+         '(-> feed-dataset
+              (tc/order-by [:dtstart])
+              (tc/add-column :year
+                             (fn [ds]
+                               (datetime/long-temporal-field
+                                :years
+                                (:dtstart ds))))
+              (tc/select-rows (fn [row]
+                                (-> row
+                                    :year
+                                    (>= 2023))))
+              (tc/select-rows :url)
+              (tc/map-columns :group
+                              [:url]
+                              (fn [url]
+                                (re-find #"london-clojurians|los-angeles-clojure|visual-tools|data-recur|real-world-data|scicloj-llm"
+                                         (str/lower-case url))))
+              (tc/group-by [:group])
+              (tc/add-column :count
+                             (fn [ds]
+                               (range (tc/row-count ds))))
+              tc/ungroup
+              (plotly/base {:=x :dtstart
+                            :=y :count
+                            :=color :group
+                            :=text :summary})
+              plotly/layer-point
+              plotly/layer-line)
+         
+         )
+         :keys
+         first
+         ))
+
 ;; Getting these pass would increase the "kind compatibility"
 
 (facts "kind/pprint works"
@@ -593,6 +656,4 @@
        ;;   (k/kind-eval
        ;;    '(kind/smile-model {}))
        )
-
-
 
